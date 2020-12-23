@@ -57,6 +57,9 @@ namespace SuggestionsJS
                             case "setShowID":
                                 await Methods.SetShowIDAsync(jsonArgs);
                                 break;
+                            case "getShowID":
+                                response = await Methods.GetShowIDAsync();
+                                break;
                             default:
                                 response = $"Unknown method '{functionName}'";
                                 break;
