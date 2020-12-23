@@ -9,7 +9,6 @@ namespace SuggestionsJS
     {
         public class DeleteSuggestionRequest
         {
-            public string ShowID { get; set; }
             public string GUID { get; set; }
         }
 
@@ -20,9 +19,11 @@ namespace SuggestionsJS
 
             var client = new AmazonDynamoDBClient();
 
-            var suggestionsTable = Table.LoadTable(new AmazonDynamoDBClient(), "SuggestionsJS_Suggestion");
+            string showID = await ShowID.GetAsync(client);
 
-            var primaryHash = new Primitive(args.ShowID, false);
+            var suggestionsTable = Table.LoadTable(client, "SuggestionsJS_Suggestion");
+
+            var primaryHash = new Primitive(showID, false);
             var secondaryHash = new Primitive(args.GUID, false);
 
             await suggestionsTable.DeleteItemAsync(primaryHash, secondaryHash);

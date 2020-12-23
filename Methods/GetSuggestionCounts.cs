@@ -22,7 +22,11 @@ namespace SuggestionsJS
 
             var suggestionsTable = Table.LoadTable(new AmazonDynamoDBClient(), "SuggestionsJS_Suggestion");
 
-            var searchResults = suggestionsTable.Query(new Primitive(currentShowID, false), new QueryFilter());
+            var filterExpression = new Expression();
+            filterExpression.ExpressionStatement = "Used = :used";
+            filterExpression.ExpressionAttributeValues.Add(":used", false);
+
+            var searchResults = suggestionsTable.Query(new Primitive(currentShowID, false), filterExpression);
 
             do
             {
